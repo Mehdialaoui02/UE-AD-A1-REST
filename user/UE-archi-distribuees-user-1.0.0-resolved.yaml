@@ -1,0 +1,119 @@
+openapi: 3.0.0
+info:
+  title: User Service API
+  description: API for retrieving user bookings and movie details.
+  version: 1.0.0
+servers:
+  - url: http://0.0.0.0:3203
+paths:
+  /:
+    get:
+      summary: Welcome message
+      description: Displays a welcome message for the User Service.
+      responses:
+        '200':
+          description: A welcome message
+          content:
+            text/html:
+              schema:
+                type: string
+                example: "<h1 style='color:blue'>Welcome to the User service!</h1>"
+
+  /user-bookings/{userid}:
+    get:
+      summary: Get user bookings
+      description: Retrieves the bookings for a specific user.
+      parameters:
+        - name: userid
+          in: path
+          required: true
+          description: ID of the user whose bookings are being fetched.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A list of user bookings
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    booking_id:
+                      type: string
+                    dates:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          date:
+                            type: string
+                          movies:
+                            type: array
+                            items:
+                              type: string
+        '404':
+          description: User not found
+
+  /movie-details/{userid}:
+    get:
+      summary: Get movie details based on user bookings
+      description: Retrieves movie details for a specific user by fetching their bookings and movie IDs.
+      parameters:
+        - name: userid
+          in: path
+          required: true
+          description: ID of the user whose movie details are being fetched.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A list of movie details
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    movie_id:
+                      type: string
+                    title:
+                      type: string
+                    description:
+                      type: string
+                    release_date:
+                      type: string
+        '404':
+          description: User or movie not found
+
+components:
+  schemas:
+    Booking:
+      type: object
+      properties:
+        booking_id:
+          type: string
+        dates:
+          type: array
+          items:
+            type: object
+            properties:
+              date:
+                type: string
+              movies:
+                type: array
+                items:
+                  type: string
+    MovieDetails:
+      type: object
+      properties:
+        movie_id:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        release_date:
+          type: string
