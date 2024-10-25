@@ -8,7 +8,7 @@ servers:
 paths:
   /:
     get:
-      summary: Welcome message
+      summary: Landing Page
       description: Displays a welcome message for the User Service.
       responses:
         '200':
