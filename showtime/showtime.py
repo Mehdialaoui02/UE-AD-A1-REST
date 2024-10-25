@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, jsonify, make_response
 import json
 from werkzeug.exceptions import NotFound
+import requests
 
 app = Flask(__name__)
 
@@ -19,11 +20,14 @@ def get_json():
    res = make_response(jsonify(schedule), 200)
    return res
 
-@app.route("/showmovies/{date}", methods=['GET'])
+@app.route("/showmovies/<date>", methods=['GET'])
 def get_shows_by_date(date):
+   movies = []
    for time in schedule:
-      if str(schedule["date"]) == str(date):
-         res = make_response(jsonify(time), 200)
+      if str(time["date"]) == str(date):
+         for movie in time["movies"]:
+            movies.append(requests.get(url= f"http://127.0.0.1:3200/movies/{movie}").json())
+         res = make_response(jsonify(movies), 200)
          return res
    return make_response(jsonify({"error": "bad input parameter"}), 400)
 

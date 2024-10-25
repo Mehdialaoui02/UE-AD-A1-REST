@@ -55,4 +55,26 @@ Suivez ces étapes pour configurer et lancer le projet en local.
     cd user
     python user.py 
    ```
-
+   
+4. **Testez sur postman**
+   - Voici quelques endpoints que vous pouvez testez:
+   ```GET
+   http://127.0.0.1:3203/
+   http://127.0.0.1:3203/movie-details/chris_rivers
+   http://127.0.0.1:3202/showtimes
+   http://127.0.0.1:3202/showmovies/20151130
+   http://127.0.0.1:3200/
+   http://127.0.0.1:3200/movies/39ab85e5-5e8e-4dc5-afea-65dc368bd7ab
+   ```
+   ```POST
+   http://127.0.0.1:3200/addmovie
+   body = {
+      "title": "Inception",
+      "rating": 8.2,
+      "director": "Christopher Nolan",
+      "id": "cool_custom_id_inception"
+   }
+   ```
+   ```DELETE
+   http://127.0.0.1:3200/movies/720d006c-3a57-4b6a-b18f-9b713b073f3c
+   ```

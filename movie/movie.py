@@ -53,30 +53,30 @@ def del_movie(movieid):
     for movie in movies:
         if str(movie["id"]) == str(movieid):
             movies.remove(movie)
+            write(movies)
             return make_response(jsonify(movie),200)
 
     res = make_response(jsonify({"error":"movie ID not found"}),400)
     return res
 
-@app.route("/movies/<movieid>/<rate>", methods=['PUT'])
+@app.route("/movies/rate/<movieid>/<rate>", methods=['PUT'])
 def update_movie_rating(movieid, rate):
     for movie in movies:
         if str(movie["id"]) == str(movieid):
             movie["rating"] = rate
-            res = make_response(jsonify(movie),200)
-            return res
+            write(movies)
+            return make_response(jsonify(movie),200)
 
     res = make_response(jsonify({"error":"movie ID not found"}),201)
     return res
 
-@app.route("/addmovie/<movieid>", methods=['POST'])
-def add_movie(movieid):
+@app.route("/addmovie", methods=['POST'])
+def add_movie():
     req = request.get_json()
-
+    print(req)
     for movie in movies:
-        if str(movie["id"]) == str(movieid):
+        if str(movie["id"]) == str(req["id"]):
             return make_response(jsonify({"error":"movie ID already exists"}),409)
-
     movies.append(req)
     write(movies)
     res = make_response(jsonify({"message":"movie added"}),200)
